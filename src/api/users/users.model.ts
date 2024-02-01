@@ -1,7 +1,7 @@
-import { DataTypes } from "sequelize";
-import sequelize from "../../database";
+import { DataTypes } from 'sequelize';
+import sequelize from '../../database.js';
 
-const UserSchema = sequelize.define("users", {
+const UserSchema = sequelize.define('users', {
   userid: {
     type: DataTypes.STRING,
     primaryKey: true,
@@ -11,7 +11,7 @@ const UserSchema = sequelize.define("users", {
   userpassword: DataTypes.STRING,
 },
 {
- timestamps: false,
+  timestamps: false,
 }
 );
 

@@ -1,17 +1,12 @@
-import express from 'express';
+import express, {json} from 'express';
 import cors from 'cors';
-import './database';
+import './database.js';
 import apiRouter from './api/router.js';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const server = express();
 const port = process.env.PORT || 3000;
 
-console.log(port);
-
-server.use(express.json());
+server.use(json());
 server.use(cors({ origin: true }));
 server.use(apiRouter);
 

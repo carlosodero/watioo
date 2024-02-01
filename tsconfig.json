@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "es2022",
+    "verbatimModuleSyntax": false,
+    "allowJs": true,
+    // "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    /* If NOT transpiling with TypeScript: */
+    "moduleResolution": "NodeNext",
+    "module": "NodeNext",
+    "noEmit": true,
+    /* If your code doesn't run in the DOM: */
+    "lib": [
+      "ESNext"
+    ]
+  },
+  "include": [
+    "./src/**/*",
+    "tests",
+  ],
+  "exclude": [
+    "./node_modules",
+    "./dist",
+    "**/*.test.ts",
+    "**/*.spec.ts",
+  ]
+}

@@ -14,7 +14,14 @@ export async function getUsers() {
 }
 
 export async function getUserById(id: string) {
-  const user = await UserSchema.findByPk(id);
+  const user = await UserSchema
+    .findOne({
+      where: {
+        userid: id,
+        isarchived: false,
+        isconfirmed: true,
+      },
+    });
   return user;
 }
 

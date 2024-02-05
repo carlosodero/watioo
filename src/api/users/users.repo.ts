@@ -62,7 +62,8 @@ export async function confirmUser ( { username } : { username: string }) {
     console.log('Error in confirmUser in users.repo', error);
     return null;
   }
-=======
+}
+
 export async function getUserById(id: string) {
   const user = await UserSchema
     .findOne({

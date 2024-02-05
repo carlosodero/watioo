@@ -9,9 +9,19 @@ const UserSchema = sequelize.define('users', {
   username: DataTypes.STRING,
   useremail: DataTypes.STRING,
   userpassword: DataTypes.STRING,
-  isarchived: { type: DataTypes.BOOLEAN, defaultValue: false } ,
-  isconfirmed: { type: DataTypes.BOOLEAN, defaultValue: false },
-  isadmin: { type: DataTypes.BOOLEAN, defaultValue: false },
+
+  isarchived: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  isconfirmed: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
+  isadmin: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  },
 },
 {
   timestamps: false,

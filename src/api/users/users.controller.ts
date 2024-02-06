@@ -1,5 +1,7 @@
 import type { Request, Response } from 'express';
+import { hashSync } from 'bcrypt';
 import * as userService from './users.service.js';
+import { validatePartialUser } from './users.validation.js';
 
 export async function getUsers(req: Request, res: Response) {
   const users = await userService.getUsers();
@@ -28,10 +30,22 @@ export async function getUserByName(req: Request, res: Response) {
 
 export async function updateUserById(req: Request, res: Response) {
   const { id } = req.params;
+  const newProps = req.body;
   if (!id) {
     res.status(400).json({ error: 'ID is required' });
     return;
   }
+
+  const validData = validatePartialUser(req.body);
+
+  if (!validData.success) {
+    return res.status(400).send('Invalid data');
+  }
+
+  if (newProps.password) {
+    newProps.password = hashSync(newProps.password, 10);
+  }
+
   const user = await userService.updateUserById(id, req.body);
   res.json(user);
 }
@@ -42,6 +56,6 @@ export async function deleteUserById(req: Request, res: Response) {
     res.status(400).json({ error: 'ID is required' });
     return;
   }
-  const user = await userService.deleteUserById({ id });
+  const user = await userService.deleteUserById( id );
   res.json(user);
 }

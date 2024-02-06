@@ -22,6 +22,10 @@ const UserSchema = sequelize.define('users', {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
+  dni: DataTypes.STRING,
+  telefono: DataTypes.STRING,
+  nombre: DataTypes.STRING,
+  apellidos: DataTypes.STRING,
 },
 {
   timestamps: false,

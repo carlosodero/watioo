@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import * as authService from './auth.service.js';
 import * as usersRepo from '../users/users.repo.js';
+import { validatePartialUser } from '../users/users.validation.js';
 
 const { CONFIRM_PAGE} = process.env;
 
@@ -25,9 +26,9 @@ export async function registerUser (req: Request, res: Response) {
     return res.status(400).send('Invalid email');
   }
 
-  const validData = 'all data is valid';
+  const validData = validatePartialUser(req.body);
 
-  if (!validData) {
+  if (!validData.success) {
     return res.status(400).send('Invalid data');
   }
 
@@ -56,10 +57,7 @@ export async function registerUser (req: Request, res: Response) {
 export async function confirmUser (req: Request, res: Response) {
   const { emailtoken } = req.params;
   if (!emailtoken) {
-    // const resobj = { ok: false, message: 'Empty required params' };
-    res.status(400);
-    res.json('Empty required params');
-    return;
+    return res.status(400).send('Empty required params');
   }
 
   await authService.confirmUser({ emailtoken });

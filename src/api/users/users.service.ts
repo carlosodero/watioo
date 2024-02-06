@@ -20,7 +20,7 @@ export async function updateUserById(id: string, newValues: object) {
   return updatedUser;
 }
 
-export async function deleteUserById({ id }: {id:string}) {
+export async function deleteUserById( id: string) {
   const user = await userRepo.deleteUserById(id);
   return user;
 }

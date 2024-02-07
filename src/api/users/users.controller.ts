@@ -5,6 +5,10 @@ import { validatePartialUser } from './users.validation.js';
 
 export async function getUsers(req: Request, res: Response) {
   const users = await userService.getUsers();
+  if (!users) {
+    res.status(500).json({ error: 'Error getting users' });
+    return;
+  }
   res.json(users);
 }
 
@@ -18,13 +22,13 @@ export async function getUserById(req: Request, res: Response) {
   res.json(user);
 }
 
-export async function getUserByName(req: Request, res: Response) {
+export async function getUserByUsername(req: Request, res: Response) {
   const { username } = req.params;
   if (!username) {
     res.status(400).json({ error: 'Name is required' });
     return;
   }
-  const user = await userService.getUserByName({ username });
+  const user = await userService.getUserByUsername(username);
   res.json(user);
 }
 
@@ -46,7 +50,7 @@ export async function updateUserById(req: Request, res: Response) {
     newProps.password = hashSync(newProps.password, 10);
   }
 
-  const user = await userService.updateUserById(id, req.body);
+  const user = await userService.updateUserById(id, newProps);
   res.json(user);
 }
 

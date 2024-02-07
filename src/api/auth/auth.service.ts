@@ -4,7 +4,7 @@ import nodemailer from 'nodemailer';
 import { v4 as uuidv4 } from 'uuid';
 import * as usersRepo from '../users/users.repo.js';
 
-const { HOST, EMAIL_HEADER, JWT_SECRET, JWT_EXPIRES_IN, CONFIRM_ROUTE } = process.env;
+const { HOST, EMAIL_HEADER, JWT_SECRET, JWT_EXPIRES_IN, CONFIRM_ROUTE, EMAIL_USER, EMAIL_PASSWORD } = process.env;
 
 function getToken ({ userId, isAdmin, username }: { userId: string, isAdmin: boolean, username: string }) {
   const payload = { userId, isAdmin, username };
@@ -41,8 +41,8 @@ export async function registerUser ({ username, userEmail, userPassword }: { use
       host: 'sandbox.smtp.mailtrap.io',
       port: 2525,
       auth: {
-        user: '51000fbf5d2f57',
-        pass: '8b4d7a1f0a44be'
+        user: EMAIL_USER,
+        pass: EMAIL_PASSWORD,
       }
     });
 
@@ -67,7 +67,6 @@ export async function registerUser ({ username, userEmail, userPassword }: { use
     console.error('Error in register process', error);
     return false;
   }
-  // const message = { ok: true, message: 'User created successfully' };
   return true;
 }
 

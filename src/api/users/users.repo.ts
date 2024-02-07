@@ -28,7 +28,9 @@ export async function getUserById(id: string) {
           isConfirmed: true,
         },
       });
-    return user;
+    const userWithoutPassword = user?.dataValues;
+    delete userWithoutPassword.userPassword;
+    return userWithoutPassword;
   } catch (error) {
     console.log('Error in getUserById in users.repo', error);
     return { message: 'Internal error in getUserById in users.repo' };
@@ -52,7 +54,9 @@ export async function getUserByUsername(username: string) {
 export async function updateUserById(id: string, newProps: object) {
   try {
     const updatedUser = await UserSchema.update(newProps, { where: { userId: id }, returning: true });
-    return updatedUser[1][0];
+    const updatedUserWithoutPassword = updatedUser[1][0]?.dataValues;
+    delete updatedUserWithoutPassword.userPassword;
+    return updatedUserWithoutPassword;
   } catch (error) { 
     console.log('Error in updateUserById in users.repo', error);
     return { message: 'Internal error in updateUserById in users.repo' };

@@ -86,7 +86,6 @@ export async function loginUser({ username, userPassword }: { username: string, 
   }
 
   const { userId, isAdmin } = user;
-
   const token = getToken({ userId, isAdmin, username });
   if (!token) {
     return { message: 'Some problem generating token' };

@@ -14,11 +14,12 @@ function unauthorized (res: Response) {
 }
 
 const verifyToken = (req: RequestExtended, res: Response, check: string ): boolean => {
+
   const authHeader = req.headers.authorization;
   let pass = true;
   if (authHeader) {
 
-    const token = Array.isArray(authHeader) ? authHeader[0] : authHeader;
+    const token = authHeader;
     if (!token) {
       return false;
     }
@@ -32,23 +33,27 @@ const verifyToken = (req: RequestExtended, res: Response, check: string ): boole
       if (err) {
         pass = false;
       }
-      
+
       if (check === 'isadmin') {
+
         if (!user.isAdmin) {
           pass = false;
         }
+        
       }
 
       if (check === 'isuser') {
+
         if ( (user.userId !== req.params.id) && !user.isAdmin ) {
           pass = false;
         }
       }
+
     });
   } else {
     pass = false;
   }
-  
+
   return pass;
 };
 

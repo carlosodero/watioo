@@ -3,7 +3,7 @@ import sequelize from '../../database.js';
 
 const UserSchema = sequelize.define('users', {
   userid: {
-    type: DataTypes.STRING,
+    type: DataTypes.UUID,
     primaryKey: true,
   },
   username: DataTypes.STRING,

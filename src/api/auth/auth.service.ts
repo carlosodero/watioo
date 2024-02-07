@@ -25,7 +25,7 @@ export async function registerUser ({ username, userEmail, userPassword }: { use
   try {
     const hashedPassword = hashSync(userPassword, 10);
     const newUserId = uuidv4();
-    const dbUser = await usersRepo.createUser({ newUserId, username, userPassword: hashedPassword, userEmail });
+    const dbUser = await usersRepo.registerUser({ newUserId, username, userPassword: hashedPassword, userEmail });
     if (!dbUser) {
       throw new Error('Some problem creating the user');
     }

@@ -13,7 +13,7 @@ export async function getUsers() {
   return users;
 }
 
-export async function createUser ( { newUserId, username, userPassword, userEmail} : { newUserId: string, username: string, userPassword: string, userEmail: string }) {
+export async function registerUser ( { newUserId, username, userPassword, userEmail} : { newUserId: string, username: string, userPassword: string, userEmail: string }) {
   const user= await UserSchema.create({
     userid: newUserId,
     username: username,

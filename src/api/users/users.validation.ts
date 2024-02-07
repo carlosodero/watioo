@@ -4,7 +4,7 @@ import {User} from '../../interfaces/user.js';
 const userSchema = zod.object({
   userid: zod.string(),
   username: zod.string(),
-  useremail: zod.string(),
+  useremail: zod.string().email(),
   userpassword: zod.string(),
   isarchived: zod.boolean(),
   isconfirmed: zod.boolean(),

@@ -51,8 +51,8 @@ export async function getUserByUsername(username: string) {
 
 export async function updateUserById(id: string, newProps: object) {
   try {
-    const updatedUser = await UserSchema.update(newProps, { where: { userid: id } });
-    return updatedUser;
+    const updatedUser = await UserSchema.update(newProps, { where: { userid: id }, returning: true });
+    return updatedUser[1][0];
   } catch (error) { 
     console.log('Error in updateUserById in users.repo', error);
     return { message: 'Internal error in updateUserById in users.repo' };

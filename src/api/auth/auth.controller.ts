@@ -47,6 +47,18 @@ export async function registerUser(req: Request, res: Response) {
   res.json(userCreated);
 }
 
+export async function loginUser(req: Request, res: Response) {
+  const { username, userpassword } = req.body;
+
+  if (!username || !userpassword) {
+    res.status(400);
+    res.json('Empty required params');
+    return;
+  }
+  const userDataAndToken = await authService.loginUser({ username, userpassword });
+  res.json(userDataAndToken);
+}
+
 export async function confirmUser(req: Request, res: Response) {
   const { emailtoken } = req.params;
   if (!emailtoken) {

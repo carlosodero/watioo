@@ -7,6 +7,7 @@ const router = Router();
 router.use('/users', usersRouter);
 
 router.post('/register', authController.registerUser);
+router.post('/login', authController.loginUser);
 
 router.get('/confirm/:emailtoken', authController.confirmUser);
 

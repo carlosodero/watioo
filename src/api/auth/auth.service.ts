@@ -1,13 +1,13 @@
 import jwt from 'jsonwebtoken';
-import { hashSync } from 'bcrypt';
+import { compareSync, hashSync } from 'bcrypt';
 import nodemailer from 'nodemailer';
 import { v4 as uuidv4 } from 'uuid';
 import * as usersRepo from '../users/users.repo.js';
 
 const { HOST, EMAIL_HEADER, JWT_SECRET, JWT_EXPIRES_IN, CONFIRM_ROUTE, EMAIL_USER, EMAIL_PASSWORD } = process.env;
 
-function getToken ({ userId, isAdmin, username }: { userId: string, isAdmin: boolean, username: string }) {
-  const payload = { userId, isAdmin, username };
+function getToken({ userid, isadmin, username }: { userid: string, isadmin: boolean, username: string }) {
+  const payload = { userid, isadmin, username };
 
   const secret = JWT_SECRET;
   if (!secret) {
@@ -21,7 +21,7 @@ function getToken ({ userId, isAdmin, username }: { userId: string, isAdmin: boo
   return token;
 }
 
-export async function registerUser ({ username, userEmail, userPassword }: { username: string, userEmail: string, userPassword: string }) {
+export async function registerUser({ username, userEmail, userPassword }: { username: string, userEmail: string, userPassword: string }) {
   try {
     const hashedPassword = hashSync(userPassword, 10);
     const newUserId = uuidv4();
@@ -30,9 +30,9 @@ export async function registerUser ({ username, userEmail, userPassword }: { use
       throw new Error('Some problem creating the user');
     }
 
-    const { userid: userId, isadmin: isAdmin } = dbUser;
+    const { userid, isadmin } = dbUser;
 
-    const emailToken = getToken({ userId, isAdmin, username });
+    const emailToken = getToken({ userid, isadmin, username });
     if (!emailToken) {
       throw new Error('Some problem generating token');
     }
@@ -70,7 +70,33 @@ export async function registerUser ({ username, userEmail, userPassword }: { use
   return true;
 }
 
-export async function confirmUser ({ emailtoken }: { emailtoken: string }) {
+export async function loginUser({ username, userpassword }: { username: string, userpassword: string }) {
+  const user = await usersRepo.getUserByUsername(username);
+  if (!user.message && !user) {
+    return user;
+  }
+
+  if (!user.isconfirmed) {
+    return { message: 'User not confirmed' };
+  }
+
+  const isSamePassword = compareSync(userpassword, user.userpassword);
+  if (!isSamePassword) {
+    return { message: 'Invalid password' };
+  }
+
+  const { userid, isadmin } = user;
+
+  const token = getToken({ userid, isadmin, username });
+  if (!token) {
+    return { message: 'Some problem generating token' };
+  }
+  const userDataAndtoken = { ...user, token };
+  delete userDataAndtoken.userpassword;
+  return userDataAndtoken;
+}
+
+export async function confirmUser({ emailtoken }: { emailtoken: string }) {
   try {
     const tokenConfirmedEmail = emailtoken;
     let username;

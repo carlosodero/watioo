@@ -16,9 +16,9 @@ const generateUserData = () => {
     isconfirmed: Math.random() < 0.8,
     isadmin: Math.random() < 0.05,
     dni: `12345678${Math.floor(Math.random() * 10)}`, // Replace with logic for DNI generation
-    telefono: '912345678', // Replace with logic for phone number generation
-    nombre: `Nombre${Math.floor(Math.random() * 10)}`,
-    apellidos: `Apellido${Math.floor(Math.random() * 10)}`,
+    phone: '912345678', // Replace with logic for phone number generation
+    name: `Nombre${Math.floor(Math.random() * 10)}`,
+    surname: `Apellido${Math.floor(Math.random() * 10)}`,
   };
 };
 

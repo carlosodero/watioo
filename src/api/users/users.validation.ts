@@ -10,9 +10,9 @@ const userSchema = zod.object({
   isconfirmed: zod.boolean(),
   isadmin: zod.boolean(),
   dni: zod.string(),
-  telefono: zod.string(),
-  nombre: zod.string(),
-  apellidos: zod.string(),
+  phone: zod.string(),
+  name: zod.string(),
+  surname: zod.string(),
 });
 
 export function validateUser (user: User) {

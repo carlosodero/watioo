@@ -7,7 +7,7 @@ export interface User {
   isConfirmed?: boolean;
   isAdmin?: boolean;
   dni?: string;
-  telefono?: string;
-  nombre?: string;
-  apellidos?: string;
+  phone?: string;
+  name?: string;
+  surname?: string;
 }

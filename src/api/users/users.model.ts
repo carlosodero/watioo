@@ -6,7 +6,10 @@ const UserSchema = sequelize.define('users', {
     type: DataTypes.UUID,
     primaryKey: true,
   },
-  username: DataTypes.STRING,
+  username: {
+    type: DataTypes.STRING,
+    unique: true,
+  },
   useremail: DataTypes.STRING,
   userpassword: DataTypes.STRING,
 
@@ -23,9 +26,9 @@ const UserSchema = sequelize.define('users', {
     defaultValue: false,
   },
   dni: DataTypes.STRING,
-  telefono: DataTypes.STRING,
-  nombre: DataTypes.STRING,
-  apellidos: DataTypes.STRING,
+  phone: DataTypes.STRING,
+  name: DataTypes.STRING,
+  surname: DataTypes.STRING,
 },
 {
   timestamps: false,

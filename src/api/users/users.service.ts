@@ -12,7 +12,9 @@ export async function getUserById({ id }: {id:string}) {
 
 export async function getUserByUsername(username: string) {
   const user = await userRepo.getUserByUsername(username);
-  return user;
+  const userWithoutPassword = user;
+  delete userWithoutPassword.userPassword;
+  return userWithoutPassword;
 }   
 
 export async function updateUserById(id: string, newProps: object) {

@@ -5,9 +5,9 @@ export async function getUsers() {
     const users = await UserSchema
       .findAll({
         where: {
-          isarchived: false,
-          isconfirmed: true,
-          isadmin: false,
+          isArchived: false,
+          isConfirmed: true,
+          isAdmin: false,
         },
       }
       );
@@ -23,12 +23,14 @@ export async function getUserById(id: string) {
     const user = await UserSchema
       .findOne({
         where: {
-          userid: id,
-          isarchived: false,
-          isconfirmed: true,
+          userId: id,
+          isArchived: false,
+          isConfirmed: true,
         },
       });
-    return user;
+    const userWithoutPassword = user?.dataValues;
+    delete userWithoutPassword.userPassword;
+    return userWithoutPassword;
   } catch (error) {
     console.log('Error in getUserById in users.repo', error);
     return { message: 'Internal error in getUserById in users.repo' };
@@ -51,8 +53,10 @@ export async function getUserByUsername(username: string) {
 
 export async function updateUserById(id: string, newProps: object) {
   try {
-    const updatedUser = await UserSchema.update(newProps, { where: { userid: id }, returning: true });
-    return updatedUser[1][0];
+    const updatedUser = await UserSchema.update(newProps, { where: { userId: id }, returning: true });
+    const updatedUserWithoutPassword = updatedUser[1][0]?.dataValues;
+    delete updatedUserWithoutPassword.userPassword;
+    return updatedUserWithoutPassword;
   } catch (error) { 
     console.log('Error in updateUserById in users.repo', error);
     return { message: 'Internal error in updateUserById in users.repo' };
@@ -61,7 +65,7 @@ export async function updateUserById(id: string, newProps: object) {
 
 export async function deleteUserById(id: string) {
   try {
-    const user = await UserSchema.update({ isarchived: true }, { where: { userid: id, isarchived: false } });
+    const user = await UserSchema.update({ isArchived: true }, { where: { userId: id, isArchived: false } });
     return user;
   } catch (error) {
     console.log('Error in deleteUserById in users.repo', error);
@@ -72,10 +76,10 @@ export async function deleteUserById(id: string) {
 export async function registerUser({ newUserId, username, userPassword, userEmail }: { newUserId: string, username: string, userPassword: string, userEmail: string }) {
   try {
     const user = await UserSchema.create({
-      userid: newUserId,
+      userId: newUserId,
       username,
-      userpassword: userPassword,
-      useremail: userEmail,
+      userPassword: userPassword,
+      userEmail: userEmail,
     });
     return user?.dataValues;
   } catch (error) {
@@ -88,7 +92,7 @@ export async function getUserByEmail(userEmail: string) {
   try {
     const user = await UserSchema.findOne({
       where: {
-        useremail: userEmail,
+        userEmail: userEmail,
       },
     });
     return user;
@@ -101,7 +105,7 @@ export async function getUserByEmail(userEmail: string) {
 export async function confirmUser({ username }: { username: string }) {
   try {
     const confirmedUser = await UserSchema.update(
-      { isconfirmed: true },
+      { isConfirmed: true },
       { where: { username: username } }
     );
     if (!confirmedUser) {

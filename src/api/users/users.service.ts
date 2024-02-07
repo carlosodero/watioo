@@ -10,13 +10,13 @@ export async function getUserById({ id }: {id:string}) {
   return user;
 } 
 
-export async function getUserByName({ username }:{username: string}) {
-  const user = await userRepo.getUserByName(username);
+export async function getUserByUsername(username: string) {
+  const user = await userRepo.getUserByUsername(username);
   return user;
 }   
 
-export async function updateUserById(id: string, newValues: object) {
-  const updatedUser = await userRepo.updateUserById(id, newValues);
+export async function updateUserById(id: string, newProps: object) {
+  const updatedUser = await userRepo.updateUserById(id, newProps);
   return updatedUser;
 }
 

@@ -48,14 +48,14 @@ export async function registerUser(req: Request, res: Response) {
 }
 
 export async function loginUser(req: Request, res: Response) {
-  const { username, userpassword } = req.body;
+  const { username, userPassword } = req.body;
 
-  if (!username || !userpassword) {
+  if (!username || !userPassword) {
     res.status(400);
     res.json('Empty required params');
     return;
   }
-  const userDataAndToken = await authService.loginUser({ username, userpassword });
+  const userDataAndToken = await authService.loginUser({ username, userPassword });
   res.json(userDataAndToken);
 }
 

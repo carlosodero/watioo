@@ -8,13 +8,13 @@ import UserSchema from '../api/users/users.model.js';
 const generateUserData = () => {
 
   return {
-    userid: uuidv4(),
+    userId: uuidv4(),
     username: `usuario${Math.floor(Math.random() * 100)}`,
-    useremail: `usuario${Math.floor(Math.random() * 100)}@ejemplo.com`,
-    userpassword: hashSync('contraseña123', 10), // Replace with secure password
-    isarchived: Math.random() < 0.2,
-    isconfirmed: Math.random() < 0.8,
-    isadmin: Math.random() < 0.05,
+    userEmail: `usuario${Math.floor(Math.random() * 100)}@ejemplo.com`,
+    userPassword: hashSync('contraseña123', 10), // Replace with secure password
+    isArchived: Math.random() < 0.2,
+    isConfirmed: Math.random() < 0.8,
+    isAdmin: Math.random() < 0.05,
     dni: `12345678${Math.floor(Math.random() * 10)}`, // Replace with logic for DNI generation
     phone: '912345678', // Replace with logic for phone number generation
     name: `Nombre${Math.floor(Math.random() * 10)}`,

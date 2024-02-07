@@ -6,8 +6,8 @@ import * as usersRepo from '../users/users.repo.js';
 
 const { HOST, EMAIL_HEADER, JWT_SECRET, JWT_EXPIRES_IN, CONFIRM_ROUTE, EMAIL_USER, EMAIL_PASSWORD } = process.env;
 
-function getToken({ userid, isadmin, username }: { userid: string, isadmin: boolean, username: string }) {
-  const payload = { userid, isadmin, username };
+function getToken({ userId, isAdmin, username }: { userId: string, isAdmin: boolean, username: string }) {
+  const payload = { userId, isAdmin, username };
 
   const secret = JWT_SECRET;
   if (!secret) {
@@ -30,9 +30,9 @@ export async function registerUser({ username, userEmail, userPassword }: { user
       throw new Error('Some problem creating the user');
     }
 
-    const { userid, isadmin } = dbUser;
+    const { userId, isAdmin } = dbUser;
 
-    const emailToken = getToken({ userid, isadmin, username });
+    const emailToken = getToken({ userId, isAdmin, username });
     if (!emailToken) {
       throw new Error('Some problem generating token');
     }
@@ -70,29 +70,29 @@ export async function registerUser({ username, userEmail, userPassword }: { user
   return true;
 }
 
-export async function loginUser({ username, userpassword }: { username: string, userpassword: string }) {
+export async function loginUser({ username, userPassword }: { username: string, userPassword: string }) {
   const user = await usersRepo.getUserByUsername(username);
   if (!user.message && !user) {
     return user;
   }
 
-  if (!user.isconfirmed) {
+  if (!user.isConfirmed) {
     return { message: 'User not confirmed' };
   }
 
-  const isSamePassword = compareSync(userpassword, user.userpassword);
+  const isSamePassword = compareSync(userPassword, user.userPassword);
   if (!isSamePassword) {
     return { message: 'Invalid password' };
   }
 
-  const { userid, isadmin } = user;
+  const { userId, isAdmin } = user;
 
-  const token = getToken({ userid, isadmin, username });
+  const token = getToken({ userId, isAdmin, username });
   if (!token) {
     return { message: 'Some problem generating token' };
   }
   const userDataAndtoken = { ...user, token };
-  delete userDataAndtoken.userpassword;
+  delete userDataAndtoken.userPassword;
   return userDataAndtoken;
 }
 

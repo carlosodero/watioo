@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../../database.js';
 
 const UserSchema = sequelize.define('users', {
-  userid: {
+  userId: {
     type: DataTypes.UUID,
     primaryKey: true,
   },
@@ -10,18 +10,18 @@ const UserSchema = sequelize.define('users', {
     type: DataTypes.STRING,
     unique: true,
   },
-  useremail: DataTypes.STRING,
-  userpassword: DataTypes.STRING,
+  userEmail: DataTypes.STRING,
+  userPassword: DataTypes.STRING,
 
-  isarchived: {
+  isArchived: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  isconfirmed: {
+  isConfirmed: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },
-  isadmin: {
+  isAdmin: {
     type: DataTypes.BOOLEAN,
     defaultValue: false,
   },

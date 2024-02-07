@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { hashSync } from 'bcrypt';
 import nodemailer from 'nodemailer';
+import { v4 as uuidv4 } from 'uuid';
 import * as usersRepo from '../users/users.repo.js';
 
 const { HOST, EMAIL_HEADER, JWT_SECRET, JWT_EXPIRES_IN, CONFIRM_ROUTE } = process.env;
@@ -23,7 +24,8 @@ function getToken ({ userId, isAdmin, username }: { userId: string, isAdmin: boo
 export async function registerUser ({ username, userEmail, userPassword }: { username: string, userEmail: string, userPassword: string }) {
   try {
     const hashedPassword = hashSync(userPassword, 10);
-    const dbUser = await usersRepo.createUser({ username, userPassword: hashedPassword, userEmail });
+    const newUserId = uuidv4();
+    const dbUser = await usersRepo.registerUser({ newUserId, username, userPassword: hashedPassword, userEmail });
     if (!dbUser) {
       throw new Error('Some problem creating the user');
     }

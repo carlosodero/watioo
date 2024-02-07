@@ -8,7 +8,7 @@ router.get('/:id', usersController.getUserById);
 router.get('/username/:username', usersController.getUserByName);
 
 router.patch('/:id', usersController.updateUserById);
-router.patch('/:id', usersController.deleteUserById);
+router.patch('/delete/:id', usersController.deleteUserById);
 
 export default router;
   

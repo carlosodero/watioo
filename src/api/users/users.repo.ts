@@ -13,10 +13,9 @@ export async function getUsers() {
   return users;
 }
 
-
-export async function createUser ( { username, userPassword, userEmail} : { username: string, userPassword: string, userEmail: string }) {
+export async function registerUser ( { newUserId, username, userPassword, userEmail} : { newUserId: string, username: string, userPassword: string, userEmail: string }) {
   const user= await UserSchema.create({
-    userid: '5',
+    userid: newUserId,
     username: username,
     userpassword: userPassword,
     useremail: userEmail,
@@ -87,7 +86,6 @@ export async function updateUserById(id: string, newValues: object) {
 }
 
 export async function deleteUserById(id: string) {
-  const user = await UserSchema.update({ isarchived: true }, { where: { userid: id } });
+  const user = await UserSchema.update({ isarchived: true }, { where: { userid: id, isarchived: false } });
   return user;
-
 }

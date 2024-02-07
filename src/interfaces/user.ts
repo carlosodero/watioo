@@ -1,8 +1,13 @@
 export interface User {
-  id?: number;
+  userId?: string;
   username?: string;
-  userPassword?: string;
   userEmail?: string;
+  userPassword?: string;
   isArchived?: boolean;
   isConfirmed?: boolean;
+  isAdmin?: boolean;
+  dni?: string;
+  phone?: string;
+  name?: string;
+  surname?: string;
 }
